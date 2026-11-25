@@ -1,0 +1,10 @@
+suite-core
+suite-guard
+suite-files
+suite-desktop
+suite-bar
+suite-explorer
+suite-clipboard
+suite-awake
+suite-viewer
+suite-settings

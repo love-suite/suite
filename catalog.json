@@ -1,0 +1,21 @@
+{
+  "suite": "27.1",
+  "apps": [
+    {"name": "Explorer", "bundleID": "local.suite.explorer", "repository": "love-suite/suite-explorer", "cask": "explorer",
+     "summary": "A file manager in the spirit of Windows Explorer, with Finder kept out of the way."},
+    {"name": "Desktop", "bundleID": "local.suite.desktop", "repository": "love-suite/suite-desktop", "cask": "desktop",
+     "summary": "The desktop in place of Finder's: free placement or a grid, stacks, Explorer's menus and shortcuts."},
+    {"name": "Bar", "bundleID": "local.suite.bar", "repository": "love-suite/suite-bar", "cask": "bar",
+     "summary": "A Dock in place of the system one: pinned and running apps, Downloads, minimized windows, the Trash."},
+    {"name": "Viewer", "bundleID": "local.suite.viewer", "repository": "love-suite/suite-viewer", "cask": "viewer",
+     "summary": "The picture and PDF viewer, going through a folder in Explorer's order."},
+    {"name": "Clipboard", "bundleID": "local.suite.clipboard", "repository": "love-suite/suite-clipboard", "cask": "clipboard",
+     "summary": "Windows' clipboard history: hold Command V for your latest copies."},
+    {"name": "Awake", "bundleID": "local.suite.awake", "repository": "love-suite/suite-awake", "cask": "awake",
+     "summary": "Keeps the Mac awake, for a while or until stopped, even with the lid closed."},
+    {"name": "Suite Settings", "bundleID": "local.suite.settings", "repository": "love-suite/suite-settings", "cask": "settings",
+     "summary": "The settings of every app of the suite, and settings profiles."},
+    {"name": "Suite Guard", "bundleID": "local.suite.guard", "repository": "love-suite/suite-guard", "cask": "guard",
+     "summary": "Puts the system Dock, Finder's desktop and Spotlight's clipboard history back should an app that hid them vanish."}
+  ]
+}

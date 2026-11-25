@@ -1,0 +1,34 @@
+# A new version of the suite (SUITE_VERSION, AA.Y) reaches every repository, in the order they depend on
+# one another (repositories.txt): each is sent `suite-version`; its sync-version.yml sets VERSION, moves
+# its dependencies, builds, tests, tags and releases; the next waits for that tag.
+name: Sync the suite's version
+
+on:
+  push:
+    branches: [main]
+    paths: [SUITE_VERSION]
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - name: Tell each repository, one after the other
+        env:
+          GH_TOKEN: ${{ secrets.SUITE_DISPATCH_TOKEN }}
+        run: |
+          # Until the token exists (scripts/set-secret.sh --suite SUITE_DISPATCH_TOKEN), nothing to do.
+          [ -n "$GH_TOKEN" ] || { echo "No SUITE_DISPATCH_TOKEN yet: no repository told."; exit 0; }
+          VERSION="$(cat SUITE_VERSION)"
+          echo "$VERSION" | grep -Eq '^[0-9]+\.[0-9]+$' || { echo "Not an AA.Y version: $VERSION"; exit 1; }
+          for REPO in $(cat repositories.txt); do
+              echo "$REPO: $VERSION"
+              gh api --silent "repos/$GITHUB_REPOSITORY_OWNER/$REPO/dispatches" -f event_type=suite-version \
+                  -F "client_payload[version]=$VERSION"
+              for _ in $(seq 120); do
+                  gh api --silent "repos/$GITHUB_REPOSITORY_OWNER/$REPO/git/ref/tags/v$VERSION" 2>/dev/null && break
+                  sleep 30
+              done
+              gh api --silent "repos/$GITHUB_REPOSITORY_OWNER/$REPO/git/ref/tags/v$VERSION" \
+                  || { echo "$REPO didn't reach v$VERSION within an hour."; exit 1; }
+          done
